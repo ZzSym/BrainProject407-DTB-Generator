@@ -1,4 +1,4 @@
-# BrainProject407
+# BrainProject407 DTB Connection Table Generator
 
 This repository documents BrainProject407 and provides code to generate DTB neuron connection tables from CSV matrices. The submitted data cover 588 participants from 8 datasets, with one 268 x 268 Shen268 matrix per participant. Diagonal entries are regional size proxies based on summed T1w gray matter probabilities; off-diagonal entries are DWI streamline counts, with counts below 2 set to zero. Data are provided separately through the data submission service and are not stored in this repository.
 
@@ -23,14 +23,14 @@ This repository documents BrainProject407 and provides code to generate DTB neur
 Requires Python 3.10 or later. Set the input path to a `__Shen268.csv` file in a submission directory and choose a new output directory.
 
 ```bash
-git clone https://github.com/ZzSym/BrainProject407.git
-cd BrainProject407
+git clone https://github.com/ZzSym/BrainProject407-DTB-Generator.git
+cd BrainProject407-DTB-Generator
 python -m pip install -r requirements.txt
 
 python csv_to_dtb.py \
   --input /path/to/subject__Shen268.csv \
   --output /path/to/dtb_output \
-  --neurons 2000000 --degree 100 --blocks 2 --seed 407
+  --neurons 2000000 --degree 100 --blocks 2
 ```
 
 Neurons are allocated using the diagonal gray matter weights, with an E:I ratio of 4:1 and minimum counts of 200 E and 50 I neurons per region. Rounding and minimum counts may change the actual total. Each neuron samples inputs from local E, local I, and external E populations in a 4:1:2 ratio. External E inputs follow the structural matrix after removing the diagonal and normalizing each row. Isolated regions use only local E/I inputs, with probabilities of 0.8/0.2.
